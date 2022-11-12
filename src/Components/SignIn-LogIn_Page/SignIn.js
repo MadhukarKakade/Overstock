@@ -45,7 +45,7 @@ const SignIn = () => {
         </GridItem>
         <GridItem colSpan={2}>
           <FormControl>
-            <Box border=".2px solid gray" p="10px">
+            <Box borderWidth='1px' p="10px">
               <Checkbox p="5px" colorScheme="blue" />
               <Text display="inline">
                 Sign up today for exclusive offers from Overstock.com delivered
