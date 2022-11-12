@@ -1,13 +1,13 @@
-import { useContext } from "react";
+import { useContext,useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../Images/logo.png";
 
 import { APIContext } from "../Context/APIDataContext";
-import { AiOutlineUser } from "react-icons/ai";
+import { AiOutlineUser,AiOutlineDown,AiOutlineUp } from "react-icons/ai";
 import { BiSearch } from "react-icons/bi";
 import { GrFavorite, GrCart } from "react-icons/gr";
 import { HiOutlineShoppingBag } from "react-icons/hi";
-
+import { RiLock2Fill } from "react-icons/ri";
 import {
   Box,
   Flex,
@@ -24,7 +24,10 @@ import {
   Circle,
   Badge,
   Divider,
+  Button,
+  CloseButton,
 } from "@chakra-ui/react";
+
 const cartData = [];
 const nav = [
   "Furniture",
@@ -40,8 +43,37 @@ const nav = [
 ];
 const Navbar = () => {
   const { setUrlRoute, cartData } = useContext(APIContext);
+  const [addTag,setHide]=useState({hide:true,delete:false})
+ 
   return (
     <Box>
+      <HStack p="5px" color="white" bg="blackAlpha.800" display={addTag.delete?"none":"flex"} justifyContent="center" alignItems={addTag.hide?"center":"flex-start"}>
+        
+        <Box fontSize="12px" >
+          <HStack cursor="pointer" alignItems="center" onClick={()=>setHide({...addTag,hide:!addTag.hide})}>
+          <Text  display="inline" >
+            Sign up to receive our latest deals and get a 10% off coupon.
+            
+          </Text>
+         {addTag.hide?<AiOutlineDown fontSize="16px" />:<AiOutlineUp/>} 
+          </HStack>
+          <Box p="10px 0px" display={addTag.hide?"none":"block"}>
+            <InputGroup  >
+              <Input bg="white" color="black" type="email"  placeholder=" Enter email address" />
+              <InputRightElement w="80px">
+                <Button  variant="solid" colorScheme="telegram"> Sign up</Button>
+              </InputRightElement>
+            </InputGroup>
+
+            <Text p="10px 0px">
+              Terms & Conditions | Privacy Policy | *You can unsubscribe at any
+              time
+            </Text>
+          </Box>
+          
+        </Box>
+        <CloseButton  onClick={()=>setHide({...addTag,delete:!addTag.delete})}/>
+      </HStack>
       <HStack p="2px 20px">
         <Box>Ships to:</Box>
         <HStack>
@@ -69,7 +101,7 @@ const Navbar = () => {
             />
             <Input
               borderColor="black"
-              w="1200px"
+              w="1100px"
               type="text"
               placeholder="Search...everything you find ship for free"
             />
@@ -77,24 +109,19 @@ const Navbar = () => {
         </HStack>
 
         <HStack spacing="25px" fontSize="12px" lineHeight="1px">
-        <Link to="/login">
-          <VStack>
-            
+          <Link to="/login">
+            <VStack>
               <AiOutlineUser size="25px" />
               <Text>Account</Text>
-           
-          </VStack>
+            </VStack>
           </Link>
           <Link to="/login">
-          <VStack>
-          
-            <GrFavorite size="25px" />
-            <Text>Lists</Text>
-           
-          </VStack>
+            <VStack>
+              <GrFavorite size="25px" />
+              <Text>Lists</Text>
+            </VStack>
           </Link>
           <Link to="/cart">
-            
             <VStack position="relative" fontSize="12px">
               <GrCart size="25px" />
               {cartData.length && (
@@ -111,6 +138,10 @@ const Navbar = () => {
             </VStack>
           </Link>
         </HStack>
+        <Link to="/checkout">  <Button leftIcon={<RiLock2Fill />} bg="black" colorScheme="blackAlpha">
+          Check out
+        </Button>
+        </Link>
       </Flex>
       <Box border="0.1px solid  rgb(220,220,220)  " />
       <HStack
