@@ -124,32 +124,7 @@ const Filter = ({ productsData, setData }) => {
             // console.log(filter)
           ))
         )}
-        {/* <RadioGroup onChange={setValue} value={value}>
-              <Flex direction="column">
-                <Radio value="1">First</Radio>
-                <Radio value="2">Second</Radio>
-                <Radio value="3">Third</Radio>
-              </Flex>
-            </RadioGroup> */}
-
-        {/* {color.map(brand => {
-            const col = brand.split(' ');
-
-            return (
-              <Checkbox colorScheme="red">
-                <Circle
-                  display="inline-flex "
-                  mr="7px"
-                  mb="-5px"
-                  size="18px"
-                  bg={col}
-                  color="white"
-                  border={col !== 'White ' ? '1px solid black' : 'none'}
-                ></Circle>
-              
-              </Checkbox>
-            );
-          })} */}
+       
       </VStack>
     </Flex>
   );
