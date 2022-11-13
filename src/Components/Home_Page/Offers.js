@@ -8,7 +8,7 @@ const Offers = ({ offers, colSizes }) => {
     
     <SimpleGrid columns={colSizes} spacing={10} textAlign="center">
       {offers.map((offer, i) => (
-        <Box key={i + 400}>
+        <Box _hover={{borderWidth:"2px" ,padding:"5px"}} key={i + 400}>
          <Link to="/products">
           <Image src={offer.image} />
           <Text>{offer.title}</Text>

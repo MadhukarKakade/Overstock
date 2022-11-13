@@ -10,13 +10,9 @@ import {
   Input,
   Checkbox,
   Text,
-  InputGroup,
-  InputLeftElement,
-  HStack,
+  
   Button,
-  Textarea,
-  InputLeftAddon,
-  Center,
+  
 } from "@chakra-ui/react";
 const SignIn = () => {
   return (
