@@ -52,7 +52,7 @@ const Product = ({productsData}) => {
       {productsData?.map((product) => (
         <Box key={product.id + 1100} borderWidth="2px" fontSize="12px">
           <Box pos="relative">
-            <Circle size='40px' bg='whiteAlpha.700'  pos="absolute"  right= "20px"  top="10px" zIndex={4} > <MdFavorite  size="25px"  /></Circle>
+            <Circle size='40px' bg='gray.400'  pos="absolute"  right= "20px"  top="10px" zIndex={4} > <MdFavorite  size="25px"   color="white"  /></Circle>
         
             <Image
               // pos="relative"
@@ -194,7 +194,7 @@ const Product = ({productsData}) => {
                             </Box>
                             
                           </SimpleGrid>
-                          {/* <Box>       </Box> */}
+                       
                         </HStack>
                       </PopoverBody>
                     </PopoverContent>
