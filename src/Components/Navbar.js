@@ -11,19 +11,18 @@ import { RiLock2Fill } from "react-icons/ri";
 import {
   Box,
   Flex,
-  Vstack,
+ 
   Input,
   HStack,
   Text,
   InputGroup,
   InputRightElement,
   Avatar,
-  Center,
+
   VStack,
   Image,
   Circle,
-  Badge,
-  Divider,
+  
   Button,
   CloseButton,
 } from "@chakra-ui/react";

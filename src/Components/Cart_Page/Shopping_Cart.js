@@ -8,8 +8,7 @@ import {
   Text,
   Button,
   VStack,
-  Flex,
-  Center,
+
 } from "@chakra-ui/react";
 import React from "react";
 const quntOption = new Array(21).fill(0);
