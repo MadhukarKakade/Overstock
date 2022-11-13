@@ -1,8 +1,7 @@
 import {
-  Container,
-  GridItem,
+  
   Center,
-  Grid,
+ 
   Flex,
   Box,
   Heading,
