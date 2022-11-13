@@ -28,62 +28,62 @@ const offer = {
     {
       image:
         "https://ak1.ostkcdn.com/img/mxc/11192021-CatSilo-Furniture.png?imwidth=1920",
-      titlte: "Furnituer",
+      title: "Furnituer",
     },
     {
       image:
         "https://ak1.ostkcdn.com/img/mxc/11152021-CatSilo-AreaRugs.png?imwidth=1920",
-      titlte: "Area Rugs",
+      title: "Area Rugs",
     },
     {
       image:
         "https://ak1.ostkcdn.com/img/mxc/11152021-CatSilo-BedBath.png?imwidth=1920",
-      titlte: "Bedding",
+      title: "Bedding",
     },
     {
       image:
         "https://ak1.ostkcdn.com/img/mxc/11152021-CatSilo-Decor.png?imwidth=1920",
-      titlte: "Home Decor",
+      title: "Home Decor",
     },
     {
       image:
         "https://ak1.ostkcdn.com/img/mxc/CatSilo-Window-040721.jpg?imwidth=1920",
-      titlte: "Window Treattments",
+      title: "Window Treattments",
     },
     {
       image:
         "https://ak1.ostkcdn.com/img/mxc/11152021-CatSilo-Kitchen.png?imwidth=1920",
-      titlte: "Kitchen",
+      title: "Kitchen",
     },
     {
       image:
         "https://ak1.ostkcdn.com/img/mxc/11192021-CatSilo-Outdoor.png?imwidth=1920",
-      titlte: "Outdoor",
+      title: "Outdoor",
     },
     {
       image:
         "https://ak1.ostkcdn.com/img/mxc/01112021-CatSilo-HomeImp.jpg?imwidth=1920",
-      titlte: "Home Improvement",
+      title: "Home Improvement",
     },
     {
       image:
         "https://ak1.ostkcdn.com/img/mxc/11152021-CatSilo-Storage.png?imwidth=1920",
-      titlte: "Storage",
+      title: "Storage",
     },
     {
       image:
         "https://ak1.ostkcdn.com/img/mxc/01112021-CatSilo-Mattresses.jpg?imwidth=1920",
-      titlte: "Mattresses",
+      title: "Mattresses",
     },
     {
       image:
         "https://ak1.ostkcdn.com/img/mxc/11152021-CatSilo-Lighting.png?imwidth=1920",
-      titlte: "lighting",
+      title: "lighting",
     },
     {
       image:
         "https://ak1.ostkcdn.com/img/mxc/CatSilo-AllDeals-040721.jpg?imwidth=1920",
-      titlte: "Shop All Deals",
+      title: "Shop All Deals",
     },
   ],
 };
@@ -114,7 +114,7 @@ const Home = () => {
       <Heading size="lg">Brands We Love</Heading>
       <SimpleGrid columns={[1, 2, 2, 3]} spacing={10}>
         {offer.BrandsWeLove.map((offer, i) => (
-          <Box key={i + 400}>
+          <Box key={i + 400}  _hover={{borderWidth:"2px"}}>
             <Link to="">
               <Image src={offer} />
             </Link>

@@ -43,7 +43,7 @@ const Shopping_Cart = () => {
             <Text pl="10px" display="inline" color="red">
               20% Savings
             </Text>
-            <Text color="red">Sale INR 12,251.46</Text>
+            <Heading size="sm" color="tomato">Sale INR 12,251.46</Heading>
           </Box>
 
           <Box>
