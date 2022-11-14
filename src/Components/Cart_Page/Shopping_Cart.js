@@ -10,13 +10,16 @@ import {
   VStack,
 
 } from "@chakra-ui/react";
-import React from "react";
+import { APIContext } from "../../Context/APIDataContext";
+import {useContext}from "react";
 const quntOption = new Array(21).fill(0);
 const Shopping_Cart = () => {
+  const {cartData}=useContext(APIContext)
   return (
     <Container maxW='container.lg' >
    
       {/* Append data under the box */}
+     {cartData?.map(iteme =>(
       <Box>
       <HStack
         borderWidth="1px"
@@ -28,7 +31,7 @@ const Shopping_Cart = () => {
       >
         
         <Box>
-          <Image src="https://ak1.ostkcdn.com/images/products/is/images/direct/fd159088cc160951bdeabcdc14e4ad81d6c6516e/Kitchen-Island-with-Natural-Solid-Wood-Top.jpg?impolicy=mediumlow" />
+          <Image src={iteme.product_Id} alt={iteme.productName} />
         </Box>
         <VStack alignItems="flex-start" gap="20px" fontSize="14px">
           <Box>
@@ -63,8 +66,11 @@ const Shopping_Cart = () => {
             </Button>
           </HStack>
         </VStack>
+     
       </HStack>
+    
       </Box>
+))}
     </Container>
   );
 };

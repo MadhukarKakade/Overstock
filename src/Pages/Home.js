@@ -103,7 +103,7 @@ const trading = [
 ];
 
 const Home = () => {
-  console.log(banners);
+  //console.log(banners);
   return (
     <VStack w="80%" m="auto" spacing="50px">
       <Banner banner={banners[0]} />

@@ -6,49 +6,69 @@ export const APIContext = createContext(null);
 
 const baseUrl = 'http://localhost:8080';
 const APIDataContext = ({ children }) => {
-  const [urlRoute, setUrlRoute] = useState('/mirror');
+  const [urlRoute, setUrlRoute] = useState('/decor');
   const [productsData, setProductsData] = useState([]);
   const [cartData, setCartData] = useState([]);
   const [favoriteData, setFavoriteData] = useState([]);
+  const [loading ,setLoading] =useState(null)
+  const [page,setPage] =useState(1)
+  const [total, setTotal] = useState();
   const getData = async (route) => {
+   
     try {
-      let res = await  axios.get(baseUrl+route, {
+
+      let res = await  axios.get( `${baseUrl}${route}?_page=${page}&_limit=9`, {
         
       })
+      const count = "x-total-count";
+   
+      setTotal(res.headers[count]);
      // console.log(res.data)
+     setLoading(false)
       setProductsData(res.data);
       // console.log(res.data);
     } catch (error) {
+     // SetLoading(true)
       console.log(error);
     }
   };
-  const postData= (query,data ,) =>{
-    axios.post(baseUrl, {
-      params: {
-       query : data
-      }
-    })
-    .then(function (response) {
-      console.log(response);
+  const  totalpage=Math.ceil(total / 9)
+  const postData= (route,data ) =>{
+  
+    axios.post(baseUrl+route,data)
+  .then(function (response) {
+    return (response) 
     })
     .catch(function (error) {
       console.log(error);
     });
+  
+  // else{
+  //   axios.post(baseUrl+route,data)
+  // .then(function (response) {
+  //     return response
+  //   })
+  //   .catch(function (error) {
+  //     console.log(error);
+  //   });
+  // }
   }
-  const deleteData=(path,data)=>{
-    axios.delete(baseUrl, {
+  const deleteData= (route,query,data )=>{
+    axios.delete(baseUrl+route, {
       params: {
-        path : data
+        [query]: data
        }
     
     });
   }
   console.log(cartData);
   useEffect(() => {
-    
-    
-    getData(urlRoute);
-  }, [urlRoute]);
+    setLoading(true)
+   
+    getData(urlRoute)
+
+    setLoading(false)
+  }, [urlRoute,page]);
   return (
     <APIContext.Provider
       value={{
@@ -58,6 +78,13 @@ const APIDataContext = ({ children }) => {
         setUrlRoute,
         setCartData,
         setFavoriteData,
+        loading,
+        setLoading,
+        postData,
+        getData,
+        page,
+        totalpage,
+        setPage
       }}
     >
       {children}

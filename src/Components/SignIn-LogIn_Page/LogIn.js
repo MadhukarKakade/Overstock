@@ -1,7 +1,19 @@
-import React from 'react'
+import {useState} from 'react'
 import { Container,Grid,GridItem,FormControl,Input,FormLabel,Heading,Text ,Button,Box} from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
+
 const LogIn = () => {
+const [loginInfo,setLoginInfo]=useState({email:"",password:""})
+  const loginData=({target})=>{
+    const {value,name} =target
+    setLoginInfo({...loginInfo,[name]:value})
+  }
+
+  const authenticate=()=>{
+    
+  }
+  
+  
   return (
     <Container >
       <Heading p="30px 0px 40px 0px " size="md">
@@ -11,13 +23,13 @@ const LogIn = () => {
         <GridItem colSpan={2}>
           <FormControl isRequired>
             <FormLabel>Email Address</FormLabel>
-            <Input type="email"  placeholder='Email'/>
+            <Input type="email"  placeholder='Email' name="email" onChange={loginData}/>
           </FormControl>
         </GridItem>
         <GridItem colSpan={2}>
           <FormControl isRequired>
             <FormLabel>Password</FormLabel>
-            <Input type="Password" placeholder="Password" />
+            <Input type="Password" placeholder="Password"  name="password" onChange={loginData} />
           </FormControl>
         </GridItem>
         <GridItem colSpan={2}>
