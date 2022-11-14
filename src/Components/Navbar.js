@@ -27,7 +27,7 @@ import {
   CloseButton,
 } from "@chakra-ui/react";
 
-const cartData = [];
+//const cartData = [];
 const nav = [
   "Furniture",
   "Rugs",
@@ -124,14 +124,14 @@ const Navbar = () => {
             <VStack position="relative" fontSize="12px">
               <GrCart size="25px" />
               {cartData.length && (
-                <Circle
+                <Text
                   position="absolute"
-                  top="-15px"
-                  right="-10px"
-                  bg="tomato"
-                  color="white"
-                  size="20px"
-                ></Circle>
+                  top="-10px"
+                  right="10px"
+                  color="tomato"
+                  fontWeight="600"
+                  fontSize="10px"
+                >{cartData.length}</Text>
               )}
               <Text>Cart</Text>
             </VStack>
@@ -151,7 +151,7 @@ const Navbar = () => {
       >
         {nav.map((text, i) => (
           <Link key={i} to="/products">
-            <Text onClick={() => setUrlRoute(text.toLowerCase())}>{text}</Text>
+            <Text onClick={() => setUrlRoute("/"+text.toLowerCase())}>{text}</Text>
           </Link>
         ))}
         <Text color="gray.400" fontWeight="300">

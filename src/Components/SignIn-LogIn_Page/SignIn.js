@@ -1,4 +1,5 @@
-import React from "react";
+import {useState,useContext} from "react";
+import {APIContext} from "../../Context/APIDataContext";
 import {
   Box,
   Container,
@@ -10,11 +11,55 @@ import {
   Input,
   Checkbox,
   Text,
-  
-  Button,
-  
+   Button,
+   useToast
 } from "@chakra-ui/react";
-const SignIn = () => {
+import { Navigate } from "react-router-dom";
+let Confirm=""
+const initalUserdata={userInfo:{name:"",password:""},cart:[],favorite:[]}
+const SignIn = ({setInfo}) => {
+  const { postData} = useContext(APIContext);
+  const toast = useToast()
+  const [userData,setUserData]=useState(initalUserdata)
+const [log,setlog]=useState(false)
+  const handleData=({target})=>{
+    const {value,name}=target
+    setUserData({...userData,userInfo:{...userData.userInfo,[name]:value}})
+    //setUserData({...userData})
+      }
+
+      const handleSubmit=()=>{
+
+        const email=userData.userInfo.email
+        const password=userData.userInfo.password
+        if(email.includes("@") &&email.includes(".")){
+          if(password.length>5){
+            if(password===Confirm){
+             postData("/userdata",userData )
+             toast({
+              title: 'Account created.',
+              description: "welcome "+  email,
+              status: 'success',
+              duration: 2000,
+              isClosable: true,
+              position:"top"
+            })
+              setInfo("")
+              setlog(true)
+            }else{
+              setInfo( "The passwords you have entered do not match. Please try again.")
+            }   
+          }else{
+            setInfo("Password must be a minimum of 6 characters and cannot exceed 40 characters.")
+          }
+        }else{
+        setInfo("This email address is invalid.")
+       }
+      }
+      if(log){
+        
+       return <Navigate to="/" />
+      }
   return (
     <Container>
       <Heading  p="30px 0px 40px 0px" size="md">
@@ -24,19 +69,19 @@ const SignIn = () => {
         <GridItem colSpan={2}>
           <FormControl isRequired>
             <FormLabel>Email Address</FormLabel>
-            <Input type="email" placeholder="Email"/>
+            <Input type="email" placeholder="Email" name="email" onChange={handleData}/>
           </FormControl>
         </GridItem>
         <GridItem colSpan={1}>
           <FormControl isRequired>
             <FormLabel>Create Password</FormLabel>
-            <Input type="Password" placeholder="Password" />
+            <Input type="Password" placeholder="Password"  name="password" onChange={handleData}/>
           </FormControl>
         </GridItem>
         <GridItem colSpan={1}>
           <FormControl isRequired>
             <FormLabel>Confirm Password*</FormLabel>
-            <Input type="Password" placeholder="Confirm Password" />
+            <Input type="Password" placeholder="Confirm Password" onChange={(e)=>Confirm=e.target.value}/>
           </FormControl>
         </GridItem>
         <GridItem colSpan={2}>
@@ -52,7 +97,7 @@ const SignIn = () => {
         </GridItem>
         <GridItem colSpan={2}>
           <FormControl>
-            <Button colorScheme="telegram" fontWeight="700" w="full">
+            <Button colorScheme="telegram" fontWeight="700" w="full" onClick={handleSubmit}>
               Create Account
             </Button>
           </FormControl>

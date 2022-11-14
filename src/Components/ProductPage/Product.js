@@ -32,11 +32,14 @@ import { MdFavorite } from "react-icons/md";
 {
   /* <AiFillStar fontSize="16px" color="#81E6D9" /> */
 }
+
 const Product = ({productsData}) => {
   // const enable = useRef();
+
+  
   let  rating
   const initRef = useRef(null);
-  const { setCartData, setFavoriteData, } = useContext(APIContext);
+  const { setCartData, setFavoriteData,postData,getData,f} = useContext(APIContext);
   const [enable, setIsVisible] = useState(false);
     const cart = async (id, route) => {
       const url = 'http://localhost:8080/' + route;
@@ -46,13 +49,14 @@ const Product = ({productsData}) => {
       let data = await axios.get(url);
       route == 'cart' ? setCartData(data.data) : setFavoriteData(data.data);
     };
+  
   console.log(productsData);
   return (
     <SimpleGrid columns={[1, 2, 2, 3]} spacing="15px">
       {productsData?.map((product) => (
         <Box key={product.id + 1100} borderWidth="2px" fontSize="12px">
           <Box pos="relative">
-            <Circle size='40px' bg='gray.400'  pos="absolute"  right= "20px"  top="10px" zIndex={4} > <MdFavorite  size="25px"   color="white"  /></Circle>
+            <Circle size='40px' bg='gray.400'  pos="absolute"  right= "20px"  top="10px" zIndex={4} onClick={(e)=>{cart(product.id, 'favorite');e.target.style.color="red"}}> <MdFavorite  size="25px"   color="white"  /></Circle>
         
             <Image
               // pos="relative"
@@ -186,7 +190,7 @@ const Product = ({productsData}) => {
                                   mt="20px"
                                   w="full"
                                   _hover={{ bg:"blackAlpha.900"}}
-                                  onClick={() =>  cart(product.product_Id, 'cart')}
+                                  onClick={() => cart(product.productImage, 'cart')}
                                 >
                                   Add to Cart
                                 </Button>
