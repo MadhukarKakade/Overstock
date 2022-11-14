@@ -4,7 +4,7 @@ export const APIContext = createContext(null);
 
 
 
-const baseUrl = 'http://localhost:8080';
+const baseUrl = 'http://localhost:8000';
 const APIDataContext = ({ children }) => {
   const [urlRoute, setUrlRoute] = useState('/decor');
   const [productsData, setProductsData] = useState([]);
@@ -14,11 +14,7 @@ const APIDataContext = ({ children }) => {
   const [page,setPage] =useState(1)
   const [total, setTotal] = useState();
   const getData = async (route) => {
-   
-    try {
-
-      let res = await  axios.get( `${baseUrl}${route}?_page=${page}&_limit=9`, {
-        
+    try { let res = await  axios.get( `${baseUrl}${route}?_page=${page}&_limit=9`, {
       })
       const count = "x-total-count";
    
@@ -33,7 +29,7 @@ const APIDataContext = ({ children }) => {
     }
   };
   const  totalpage=Math.ceil(total / 9)
-  const postData= (route,data ) =>{
+  const postData= (route,data) =>{
   
     axios.post(baseUrl+route,data)
   .then(function (response) {
@@ -43,15 +39,7 @@ const APIDataContext = ({ children }) => {
       console.log(error);
     });
   
-  // else{
-  //   axios.post(baseUrl+route,data)
-  // .then(function (response) {
-  //     return response
-  //   })
-  //   .catch(function (error) {
-  //     console.log(error);
-  //   });
-  // }
+  
   }
   const deleteData= (route,query,data )=>{
     axios.delete(baseUrl+route, {
@@ -80,8 +68,7 @@ const APIDataContext = ({ children }) => {
         setFavoriteData,
         loading,
         setLoading,
-        postData,
-        getData,
+      
         page,
         totalpage,
         setPage

@@ -12,9 +12,19 @@ import {
 } from "@chakra-ui/react";
 import { APIContext } from "../../Context/APIDataContext";
 import {useContext}from "react";
+import axios from "axios";
 const quntOption = new Array(21).fill(0);
 const Shopping_Cart = () => {
-  const {cartData}=useContext(APIContext)
+  const {cartData,setCartData}=useContext(APIContext)
+  const deleteItem = async ( id) => {
+    const url = "http://localhost:8000/cart/";
+    
+      console.log(id)
+     let res=await axios.delete(`${url}/${id}`)
+    
+    let data = await axios.get(url);
+   setCartData(data.data) 
+  };
   return (
     <Container maxW='container.lg' >
    
@@ -31,21 +41,21 @@ const Shopping_Cart = () => {
       >
         
         <Box>
-          <Image src={iteme.product_Id} alt={iteme.productName} />
+          <Image src={iteme.productImage} alt={iteme.productName} />
         </Box>
         <VStack alignItems="flex-start" gap="20px" fontSize="14px">
           <Box>
-            <Heading size="sm">2-shelf Natural Solid Wood Top Kitchen Island</Heading>
+            <Heading size="sm">{iteme.productName}</Heading>
 
             <Text>White Base & Natural Maple Top</Text>
           </Box>
 
           <Box fontSize="16px">
-            <Text as="s">INR 15,313.86</Text>
+            {/* <Text as="s">{+(iteme.Price)} </Text> */}
             <Text pl="10px" display="inline" color="red">
               20% Savings
             </Text>
-            <Heading size="sm" color="tomato">Sale INR 12,251.46</Heading>
+            <Heading size="sm" color="tomato">{iteme.Price}</Heading>
           </Box>
 
           <Box>
@@ -60,7 +70,7 @@ const Shopping_Cart = () => {
           </Box>
           <HStack>
           
-            <Button variant="link">Remove</Button>
+            <Button variant="link" onClick={()=>{deleteItem(iteme.id)}}>Remove</Button>
             <Button pl="20px" colorScheme="pink" variant="link">
               Save For Later
             </Button>
