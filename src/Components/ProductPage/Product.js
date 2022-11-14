@@ -1,7 +1,6 @@
-import { useState, useContext, useRef } from "react";
+import { useState, useContext, useRef, useEffect } from "react";
 import { APIContext } from "../../Context/APIDataContext";
 import axios from "axios";
-import { GrFavorite, GrCart } from "react-icons/gr";
 import {
   Box,
   Heading,
@@ -17,47 +16,87 @@ import {
   PopoverContent,
   PopoverCloseButton,
   PopoverBody,
-  PopoverHeader,
-  PopoverFooter,
   Select,
-  VStack,
-  PopoverArrow ,
- 
-  Circle
+  PopoverArrow,
+  Circle,
 } from "@chakra-ui/react";
 import { StarIcon } from "@chakra-ui/icons";
-import { AiFillStar } from "react-icons/ai";
-import {AiOutlineShoppingCart} from "react-icons/ai"
+
+import { AiOutlineShoppingCart } from "react-icons/ai";
 import { MdFavorite } from "react-icons/md";
 {
   /* <AiFillStar fontSize="16px" color="#81E6D9" /> */
 }
-
-const Product = ({productsData}) => {
+let col;
+const Product = ({ productsData }) => {
   // const enable = useRef();
 
+  let rating;
   
-  let  rating
   const initRef = useRef(null);
-  const { setCartData, setFavoriteData,postData,getData,f} = useContext(APIContext);
+  const { setCartData, setFavoriteData, favoriteData } = useContext(APIContext);
   const [enable, setIsVisible] = useState(false);
-    const cart = async (id, route) => {
-      const url = 'http://localhost:8080/' + route;
-      let res = await axios.post(url, {
-        product_Id: id,
-      });
-      let data = await axios.get(url);
-      route == 'cart' ? setCartData(data.data) : setFavoriteData(data.data);
-    };
+  const cart = async ( route,product, method) => {
+    const url = "http://localhost:8000/"+ route;
+    if (method === "post") {
+      let res = await axios.post(url, product);
+      console.log(res)
+    }
+    if(method==="delete"){
+      console.log(product)
+      let res=  axios.delete(`${url}/${product}`)
+    }
+    let data = await axios.get(url);
+    route === "cart" ? setCartData(data.data) : setFavoriteData(data.data);
+  };
   
-  console.log(productsData);
+const handleFavour=(product,col)=>{
+  let i;
+  const check=favoriteData.some(function(el) {
+        i=el.id
+     return(el.product_Id===product.product_Id)
+      
+    })
+    console.log(check,i)
+  check? cart("favorite",i,"delete"):cart( "favorite",product,"post")
+}
+  useEffect(() => {
+    cart("cart");
+    cart("favorite");
+  }, []);
+  // console.log(productsData);
   return (
     <SimpleGrid columns={[1, 2, 2, 3]} spacing="15px">
       {productsData?.map((product) => (
         <Box key={product.id + 1100} borderWidth="2px" fontSize="12px">
           <Box pos="relative">
-            <Circle size='40px' bg='gray.400'  pos="absolute"  right= "20px"  top="10px" zIndex={4} onClick={(e)=>{cart(product.id, 'favorite');e.target.style.color="red"}}> <MdFavorite  size="25px"   color="white"  /></Circle>
-        
+            {col=favoriteData.some(function(el) {
+   return (el.product_Id===product.product_Id)
+              
+            })
+            }
+            
+            <Circle
+              size="40px"
+              bg="gray.400"
+              pos="absolute"
+              right="20px"
+              top="10px"
+              zIndex={4}
+              cursor="pointer"
+              color={col?"red":"white"}
+              value={col}
+              onClick={(e) => {
+                handleFavour(product,e);
+              }}
+            >
+              <MdFavorite
+                size="25px"
+               
+               
+              />
+            </Circle>
+
             <Image
               // pos="relative"
               w="full"
@@ -65,7 +104,6 @@ const Product = ({productsData}) => {
               alt={product.productName}
             />
             <Badge
-             
               gap="4px"
               alignItems="center"
               pos="absolute"
@@ -76,26 +114,29 @@ const Product = ({productsData}) => {
               zIndex={2}
             >
               {product.offer_timline}
-            </Badge  >
-           
+            </Badge>
           </Box>
 
           <Box position="relative" p="10px">
             <Heading size="sm" color="red">
               {product.Price}
             </Heading>
-            { rating=Math.floor( Math.random() * (6 - 1) + 1) }
-            <Box display="flex" mt="2" alignItems="center">
             
-              {
-              Array(5).fill("").map((m, i) => (
-                  <StarIcon key={i} color={i < rating  ? "orange.400" : "gray.300"} />
+            <Box display="flex" mt="2" alignItems="center">
+            {(rating = Math.floor(Math.random() * (6 - 1) + 1))}
+              {Array(5)
+                .fill("")
+                .map((m, i) => (
+                  <StarIcon
+                    key={i}
+                    color={i < rating ? "orange.400" : "gray.300"}
+                  />
                 ))}
               <Box as="span" ml="2" color="gray.600" fontSize="sm">
-                {product.Customer_Ratings}
+                ({product.Customer_Ratings})
               </Box>
             </Box>
-             
+
             <Text>{product.productName}</Text>
             <Popover closeOnBlur={false} initialFocusRef={initRef}>
               {({ isOpen, onClose }) => (
@@ -104,12 +145,11 @@ const Product = ({productsData}) => {
                     <Button>Click to {isOpen ? "Hide" : "Details"}</Button>
                   </PopoverTrigger>
                   <Portal>
-                    <PopoverContent  w="800px" m="5px" borderWidth="2px">
-                    
-                    <PopoverCloseButton  alignSelf="end"/>
-                    <PopoverArrow bg='pink.500'size="xl" zIndex={10}/>
+                    <PopoverContent w="800px" m="5px" borderWidth="2px">
+                      <PopoverCloseButton alignSelf="end" />
+                      <PopoverArrow bg="pink.500" size="xl" zIndex={10} />
                       <PopoverBody bg="white">
-                        <HStack  p="20px">
+                        <HStack p="20px">
                           <Box>
                             <Box>
                               <Image
@@ -144,14 +184,14 @@ const Product = ({productsData}) => {
                               </Box>
                               <Text></Text>
                             </Box>
-                            <Text fontSize="12px"  w="400px">
+                            <Text fontSize="12px" w="400px">
                               Open up your room and simplify getting ready in
                               the morning with this large mirror. Thanks to its
                               versatile design, this mirror is freestanding with
                               the included U-shaped bracket, and can also be
                               leaned against the wall or hung on the wall
                             </Text>
-                            <Select placeholder="Select option"  w="300px">
+                            <Select placeholder="Select option" w="300px">
                               <option value="option1">
                                 Black-59×20 - INR 19,962.29 ​
                               </option>
@@ -184,30 +224,28 @@ const Product = ({productsData}) => {
                                     ))}
                                 </Select>
                                 <Button
-                                 bg="blackAlpha.800"
-                                 color="white"
-                                  leftIcon={<AiOutlineShoppingCart fontSize="25px"/>}
+                                  bg="blackAlpha.800"
+                                  color="white"
+                                  leftIcon={
+                                    <AiOutlineShoppingCart fontSize="25px" />
+                                  }
                                   mt="20px"
                                   w="full"
-                                  _hover={{ bg:"blackAlpha.900"}}
-                                  onClick={() => cart(product.productImage, 'cart')}
+                                  _hover={{ bg: "blackAlpha.900" }}
+                                  onClick={() => cart("cart",product,"post")}
                                 >
                                   Add to Cart
                                 </Button>
                               </HStack>
                             </Box>
-                            
                           </SimpleGrid>
-                       
                         </HStack>
                       </PopoverBody>
                     </PopoverContent>
                   </Portal>
-                  
                 </Box>
               )}
             </Popover>
-           
           </Box>
         </Box>
       ))}
