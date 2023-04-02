@@ -7,10 +7,11 @@ const Pagination = () => {
    
   return (
     <ButtonGroup >
-      <Button  onClick={()=>setPage(1)}>First</Button>
-      <Button  disabled={page==1?true:false} onClick={()=>setPage(page-1)}>Previous</Button>
-      <Button disabled={page==totalpage?true:false} onClick={()=>setPage(page+1)}>Next</Button>
-      <Button  onClick={()=>setPage(totalpage)}>Last</Button>
+      <Button isDisabled={page==1}   onClick={()=>setPage(1)}>First</Button>
+      <Button  isDisabled={page==1} onClick={()=>setPage(page-1)}>Previous</Button>
+      <Button>{page}</Button>
+      <Button isDisabled={page==totalpage} onClick={()=>setPage(page+1)}>Next</Button>
+      <Button isDisabled={page==totalpage} onClick={()=>setPage(totalpage)}>Last</Button>
     </ButtonGroup>
   );
 };

@@ -4,7 +4,7 @@ export const APIContext = createContext(null);
 
 
 
-const baseUrl = 'http://localhost:8000';
+const baseUrl = 'https://humdrum-town-8956-server-yo9e.vercel.app';
 const APIDataContext = ({ children }) => {
   const [urlRoute, setUrlRoute] = useState('/decor');
   const [productsData, setProductsData] = useState([]);
@@ -14,15 +14,21 @@ const APIDataContext = ({ children }) => {
   const [page,setPage] =useState(1)
   const [total, setTotal] = useState();
   const getData = async (route) => {
-    try { let res = await  axios.get( `${baseUrl}${route}?_page=${page}&_limit=9`, {
-      })
-      const count = "x-total-count";
+    try { 
+      const url=`${baseUrl}${route}?_page=${page}&_limit=9`
+      let res = await  axios.get( url )
+      const count = res.headers["x-total-count"];
    
-      setTotal(res.headers[count]);
-     // console.log(res.data)
+      setTotal( count);
+      console.log(res.data)
      setLoading(false)
-      setProductsData(res.data);
-      // console.log(res.data);
+    // {(rating = Math.floor(Math.random() * (6 - 1) + 1))}
+     let data=res.data.forEach(ele =>  ele["rating"]=Math.floor(Math.random() * (6 - 1) + 1)
+      
+     );
+     console.log(res.data);
+     return res.data;
+      
     } catch (error) {
      // SetLoading(true)
       console.log(error);
@@ -53,7 +59,7 @@ const APIDataContext = ({ children }) => {
   useEffect(() => {
     setLoading(true)
    
-    getData(urlRoute)
+    getData(urlRoute).then((data)=> setProductsData(data))
 
     setLoading(false)
   }, [urlRoute,page]);
@@ -68,7 +74,7 @@ const APIDataContext = ({ children }) => {
         setFavoriteData,
         loading,
         setLoading,
-      
+      postData,
         page,
         totalpage,
         setPage

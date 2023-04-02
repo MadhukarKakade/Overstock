@@ -34,6 +34,7 @@ const [log,setlog]=useState(false)
         const password=userData.userInfo.password
         if(email.includes("@") &&email.includes(".")){
           if(password.length>5){
+            console.log(password, Confirm)
             if(password===Confirm){
              postData("/userdata",userData )
              toast({
