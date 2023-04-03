@@ -2,7 +2,7 @@ import {useContext,useEffect,useState} from 'react'
 import Filter from "../Components/ProductPage/Filter"
 import Product from "../Components/ProductPage/Product"
 import { Grid,GridItem,Box,Center } from '@chakra-ui/react'
-import { APIContext } from './../Context/APIDataContext';
+import { APIContext } from '../Context/APIDataContext';
 import Loading from "../Components/Loading"
 import Pagination from '../Components/ProductPage/Pagination';
 const ProductsPage = () => {

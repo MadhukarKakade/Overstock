@@ -26,6 +26,7 @@ import { StarIcon } from "@chakra-ui/icons";
 
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { MdFavorite } from "react-icons/md";
+import { shortID } from "../short_key.generator";
 {
   /* <AiFillStar fontSize="16px" color="#81E6D9" /> */
 }
@@ -66,11 +67,11 @@ const handleFavour=(product,col)=>{
     cart("cart");
     cart("favorite");
   }, []);
-  // console.log(productsData);
+   //console.log( shortID());
   return (
     <SimpleGrid columns={[1, 2, 2, 3]} spacing="15px">
       {productsData?.map((product) => (
-        <Box key={product.id + 1100} borderWidth="2px" fontSize="12px">
+        <Box  key={shortID()} borderWidth="2px" fontSize="12px">
           <Box pos="relative">
             {col=favoriteData.some(function(el) {
    return (el.product_Id===product.product_Id)
@@ -132,7 +133,7 @@ const handleFavour=(product,col)=>{
                 .map((m, i) => (
                   <StarIcon
                   m="0px" p="0px"
-                    key={i}
+                  key={shortID()}
                     color={i < product.rating ? "orange.400" : "gray.300"}
                   />
                 ))}
@@ -175,7 +176,7 @@ const handleFavour=(product,col)=>{
                                 .fill("")
                                 .map((_, i) => (
                                   <StarIcon
-                                    key={i}
+                                  key={shortID()}
                                     color={i < 2 ? "orange.400" : "gray.300"}
                                   />
                                 ))}
@@ -223,7 +224,7 @@ const handleFavour=(product,col)=>{
                                   {Array(20)
                                     .fill(0)
                                     .map((qunt, i) => (
-                                      <option key={200 + i} value={i}>
+                                      <option  key={shortID()} value={i}>
                                         Qty. {i + 1}
                                       </option>
                                     ))}

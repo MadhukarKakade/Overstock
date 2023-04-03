@@ -20,13 +20,13 @@ const APIDataContext = ({ children }) => {
       const count = res.headers["x-total-count"];
    
       setTotal( count);
-      console.log(res.data)
+      //console.log(res.data)
      setLoading(false)
     // {(rating = Math.floor(Math.random() * (6 - 1) + 1))}
      let data=res.data.forEach(ele =>  ele["rating"]=Math.floor(Math.random() * (6 - 1) + 1)
       
      );
-     console.log(res.data);
+    // console.log(res.data);
      return res.data;
       
     } catch (error) {
@@ -55,7 +55,7 @@ const APIDataContext = ({ children }) => {
     
     });
   }
-  console.log(cartData);
+  console.log(urlRoute);
   useEffect(() => {
     setLoading(true)
    

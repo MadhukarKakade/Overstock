@@ -21,11 +21,14 @@ import {
   RadioGroup,HStack
 } from "@chakra-ui/react";
 import { useState, useContext } from "react";
-
+import { shortID } from "../short_key.generator";
 import { AiOutlineUser,AiOutlineDown,AiOutlineUp } from "react-icons/ai";
+import { useSearchParams } from "react-router-dom";
 
 const Filter = ({ productsData, setData }) => {
   const [show,setShow]=useState(null)
+
+  const [searchParams, setSearchParams] = useSearchParams();
   const filterData = [];
 
   for (let key in productsData[0]) {
@@ -62,7 +65,7 @@ const Filter = ({ productsData, setData }) => {
       ) {
         const obj = filterData[i][key];
         i++;
-        // console.log(obj)
+       // console.log(obj)
         const ele = product[key];
         if (obj[ele] === undefined) {
           obj[ele] = 1;
@@ -93,7 +96,7 @@ const Filter = ({ productsData, setData }) => {
       <VStack alignItems="flex-start" gap="10px">
         {filterData.map((operation, i) =>
           Object.keys(operation).map((filter, i) => (
-            <Box key={400 + i} w="full">
+            <Box key={shortID()} w="full">
               <HStack justifyContent="space-between" > <Heading  onClick={()=>handleShow(filter)} size="sm">{filter==="Quantity"? "Availabilty":filter.replace('_', ' ')}</Heading>{show===filter?<AiOutlineUp/>:<AiOutlineDown />}</HStack>
               
               <Box display={show===filter?"block":"none"}  mb="5px"  borderWidth="1.5px" bg="blue" />
@@ -103,13 +106,14 @@ const Filter = ({ productsData, setData }) => {
                   {Object.keys(operation[filter]).map((key, i) => (
                     filter !== "Types" ? 
                     <Checkbox
+                    key={shortID()}
                       size="sm"
                       isDisabled={filter === "Quantity" && operation[filter][key] > 0}
                       value={key}
                     >
                       {filter === "Quantity" && key > 0 ? "" : key} (
                       {operation[filter][key]} )
-                    </Checkbox>: <Radio value={key}>{key} 
+                    </Checkbox>: <Radio  key={shortID()} value={key}>{key} 
                     ( {operation[filter][key]} )</Radio>
                   ))}
                  
