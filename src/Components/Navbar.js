@@ -26,6 +26,7 @@ import {
   Button,
   CloseButton,
 } from "@chakra-ui/react";
+import { shortID } from "./short_key.generator";
 
 //const cartData = [];
 const nav = [
@@ -150,7 +151,7 @@ const Navbar = () => {
         p="2px 10px"
       >
         {nav.map((text, i) => (
-          <Link key={i} to="/products">
+          <Link  key={shortID()} to="/products">
             <Text onClick={() => setUrlRoute("/"+text.toLowerCase())}>{text}</Text>
           </Link>
         ))}

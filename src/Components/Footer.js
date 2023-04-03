@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, VStack, Text, Flex, HStack ,Image} from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import { shortID } from "./short_key.generator";
 const footer = {
   "MY ACCOUNT": ["Orders & Returns", "Email Preferences", "Account Settings"],
   "LET US HELP": [
@@ -25,12 +26,12 @@ const Footer = () => {
     <Box fontSize="12px" color="white" >
       <Flex justifyContent="space-between" bg="rgb(84,86,88)" p="50px 250px 50px 100px "  >
         {Object.keys(footer).map((keyName, keyIndex) => (
-          <VStack  key={keyIndex + 100} gap="15px"  alignItems="flex-start">
+          <VStack  key={shortID()} gap="15px"  alignItems="flex-start">
             
             <Text  fontWeight="500">{keyName}</Text>
             {footer[keyName].map((task, i) => (
            
-              <Link  key={i+500}path="/:task">
+              <Link   key={shortID()}path="/:task">
                 <Text  >{task}</Text>
               </Link>
             

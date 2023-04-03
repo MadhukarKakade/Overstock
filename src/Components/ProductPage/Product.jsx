@@ -19,11 +19,14 @@ import {
   Select,
   PopoverArrow,
   Circle,
+  Flex,
+  VStack,
 } from "@chakra-ui/react";
 import { StarIcon } from "@chakra-ui/icons";
 
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { MdFavorite } from "react-icons/md";
+import { shortID } from "../short_key.generator";
 {
   /* <AiFillStar fontSize="16px" color="#81E6D9" /> */
 }
@@ -35,9 +38,9 @@ const Product = ({ productsData }) => {
   
   const initRef = useRef(null);
   const { setCartData, setFavoriteData, favoriteData } = useContext(APIContext);
-  const [enable, setIsVisible] = useState(false);
+  const [enable, setEnable] = useState("");
   const cart = async ( route,product, method) => {
-    const url = "http://localhost:8000/"+ route;
+    const url =  'https://humdrum-town-8956-server-yo9e.vercel.app/'+ route;
     if (method === "post") {
       let res = await axios.post(url, product);
       console.log(res)
@@ -64,11 +67,11 @@ const handleFavour=(product,col)=>{
     cart("cart");
     cart("favorite");
   }, []);
-  // console.log(productsData);
+   //console.log( shortID());
   return (
     <SimpleGrid columns={[1, 2, 2, 3]} spacing="15px">
       {productsData?.map((product) => (
-        <Box key={product.id + 1100} borderWidth="2px" fontSize="12px">
+        <Box  key={shortID()} borderWidth="2px" fontSize="12px">
           <Box pos="relative">
             {col=favoriteData.some(function(el) {
    return (el.product_Id===product.product_Id)
@@ -117,34 +120,37 @@ const handleFavour=(product,col)=>{
             </Badge>
           </Box>
 
-          <Box position="relative" p="10px">
+          <VStack alignItems="start" gap="3px" position="relative" p="10px">
             <Heading size="sm" color="red">
               {product.Price}
             </Heading>
             
-            <Box display="flex" mt="2" alignItems="center">
-            {(rating = Math.floor(Math.random() * (6 - 1) + 1))}
+            <Flex  gap="5px"  alignItems="center" justifyContent="start">
+            <Box as="span" alignSelf="end" fontWeight={500}>{product.rating}</Box>
+            <Box >
               {Array(5)
                 .fill("")
                 .map((m, i) => (
                   <StarIcon
-                    key={i}
-                    color={i < rating ? "orange.400" : "gray.300"}
+                  m="0px" p="0px"
+                  key={shortID()}
+                    color={i < product.rating ? "orange.400" : "gray.300"}
                   />
                 ))}
-              <Box as="span" ml="2" color="gray.600" fontSize="sm">
+                </Box>
+              <Box as="span" ml="10px" color="gray.600" fontSize="sm">
                 ({product.Customer_Ratings})
               </Box>
-            </Box>
+            </Flex>
 
             <Text>{product.productName}</Text>
             <Popover closeOnBlur={false} initialFocusRef={initRef}>
               {({ isOpen, onClose }) => (
                 <Box>
                   <PopoverTrigger>
-                    <Button>Click to {isOpen ? "Hide" : "Details"}</Button>
+                    <Button onClick={()=>setEnable(product.id)}>Click to {enable==product.id&&isOpen ? "Hide" : "Details"}</Button>
                   </PopoverTrigger>
-                  <Portal>
+                  {enable==product.id &&<Portal>
                     <PopoverContent w="800px" m="5px" borderWidth="2px">
                       <PopoverCloseButton alignSelf="end" />
                       <PopoverArrow bg="pink.500" size="xl" zIndex={10} />
@@ -170,7 +176,7 @@ const handleFavour=(product,col)=>{
                                 .fill("")
                                 .map((_, i) => (
                                   <StarIcon
-                                    key={i}
+                                  key={shortID()}
                                     color={i < 2 ? "orange.400" : "gray.300"}
                                   />
                                 ))}
@@ -218,7 +224,7 @@ const handleFavour=(product,col)=>{
                                   {Array(20)
                                     .fill(0)
                                     .map((qunt, i) => (
-                                      <option key={200 + i} value={i}>
+                                      <option  key={shortID()} value={i}>
                                         Qty. {i + 1}
                                       </option>
                                     ))}
@@ -242,11 +248,11 @@ const handleFavour=(product,col)=>{
                         </HStack>
                       </PopoverBody>
                     </PopoverContent>
-                  </Portal>
+                  </Portal>}
                 </Box>
               )}
             </Popover>
-          </Box>
+          </VStack>
         </Box>
       ))}
     </SimpleGrid>
