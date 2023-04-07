@@ -21,21 +21,32 @@ import {
   Circle,
   Flex,
   VStack,
+  Center,
 } from "@chakra-ui/react";
 import { StarIcon } from "@chakra-ui/icons";
 
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { MdFavorite } from "react-icons/md";
 import { shortID } from "../short_key.generator";
+import Pagination from "./Pagination";
+import { getData } from "../../api";
+import Loading from "../Loading";
+import { useLocation } from "react-router-dom";
 {
   /* <AiFillStar fontSize="16px" color="#81E6D9" /> */
 }
 let col;
-const Product = ({ productsData }) => {
+const Product = ({params}) => {
   // const enable = useRef();
 
   let rating;
-  
+  const {urlRoute } = useContext(APIContext);
+  const [productsData, setProductsData] = useState([]);
+  const [loading ,setLoading] =useState(null)
+  const [totalPage, setTotalPage] = useState();
+  const location = useLocation();
+  //console.log(location)
+  const [page,setPage] =useState(1)
   const initRef = useRef(null);
   const { setCartData, setFavoriteData, favoriteData } = useContext(APIContext);
   const [enable, setEnable] = useState("");
@@ -43,10 +54,10 @@ const Product = ({ productsData }) => {
     const url =  'https://humdrum-town-8956-server-yo9e.vercel.app/'+ route;
     if (method === "post") {
       let res = await axios.post(url, product);
-      console.log(res)
+    //  console.log(res)
     }
     if(method==="delete"){
-      console.log(product)
+      //console.log(product)
       let res=  axios.delete(`${url}/${product}`)
     }
     let data = await axios.get(url);
@@ -60,15 +71,34 @@ const handleFavour=(product,col)=>{
      return(el.product_Id===product.product_Id)
       
     })
-    console.log(check,i)
+    //console.log(check,i)
   check? cart("favorite",i,"delete"):cart( "favorite",product,"post")
 }
-  useEffect(() => {
-    cart("cart");
-    cart("favorite");
-  }, []);
-   //console.log( shortID());
+useEffect(() => {
+  // cart("cart");
+  //   cart("favorite");
+  setLoading(true)
+  const route = location.pathname.replace("/products", "");
+  const query=location.search
+ const newParams={...params,_page:page,_limit:9}
+  getData(route,query,newParams).then(({totalCount,data})=> {
+    setProductsData(data);
+    const  totalpage=Math.ceil(totalCount / 9)
+    setTotalPage(totalpage)
+    setLoading(false)
+  }).catch((err)=>{
+    console.log(err)
+    setLoading(false)
+  })
+
+  
+}, [location.pathname,location.search,page]);
+if (loading){
+  return <Loading/>
+}
+   console.log( productsData);
   return (
+    <Box>
     <SimpleGrid columns={[1, 2, 2, 3]} spacing="15px">
       {productsData?.map((product) => (
         <Box  key={shortID()} borderWidth="2px" fontSize="12px">
@@ -103,8 +133,8 @@ const handleFavour=(product,col)=>{
             <Image
               // pos="relative"
               w="full"
-              src={product.productImage}
-              alt={product.productName}
+              src={product.product_image}
+              alt={product.product_name}
             />
             <Badge
               gap="4px"
@@ -122,11 +152,11 @@ const handleFavour=(product,col)=>{
 
           <VStack alignItems="start" gap="3px" position="relative" p="10px">
             <Heading size="sm" color="red">
-              {product.Price}
+              {product.price}
             </Heading>
             
             <Flex  gap="5px"  alignItems="center" justifyContent="start">
-            <Box as="span" alignSelf="end" fontWeight={500}>{product.rating}</Box>
+            <Box as="span" alignSelf="end" fontWeight={500}>{product._customer_ratings}</Box>
             <Box >
               {Array(5)
                 .fill("")
@@ -134,21 +164,21 @@ const handleFavour=(product,col)=>{
                   <StarIcon
                   m="0px" p="0px"
                   key={shortID()}
-                    color={i < product.rating ? "orange.400" : "gray.300"}
+                    color={i < product._customer_ratings ? "orange.400" : "gray.300"}
                   />
                 ))}
                 </Box>
               <Box as="span" ml="10px" color="gray.600" fontSize="sm">
-                ({product.Customer_Ratings})
+                ({product.total_ratings})
               </Box>
             </Flex>
 
-            <Text>{product.productName}</Text>
+            <Text>{product.product_name}</Text>
             <Popover closeOnBlur={false} initialFocusRef={initRef}>
               {({ isOpen, onClose }) => (
                 <Box>
                   <PopoverTrigger>
-                    <Button onClick={()=>setEnable(product.id)}>Click to {enable==product.id&&isOpen ? "Hide" : "Details"}</Button>
+                    <Button onMouseOver={()=>setEnable(product.id)}>Click to {enable==product.id&&isOpen ? "Hide" : "Details"}</Button>
                   </PopoverTrigger>
                   {enable==product.id &&<Portal>
                     <PopoverContent w="800px" m="5px" borderWidth="2px">
@@ -160,14 +190,14 @@ const handleFavour=(product,col)=>{
                             <Box>
                               <Image
                                 w="full"
-                                src={product.productImage}
-                                alt={product.productName}
+                                src={product.product_image}
+                                alt={product.product_name}
                               />
                             </Box>
                           </Box>
 
                           <SimpleGrid spacing="15px" p="10px">
-                            <Text>{product.productName}</Text>
+                            <Text>{product.product_name}</Text>
                             <Heading fontSize="22px" color="red">
                               {product.Price}
                             </Heading>
@@ -186,7 +216,7 @@ const handleFavour=(product,col)=>{
                                 color="gray.600"
                                 fontSize="sm"
                               >
-                                {product.Customer_Ratings}
+                                {product._customer_ratings}
                               </Box>
                               <Text></Text>
                             </Box>
@@ -256,6 +286,8 @@ const handleFavour=(product,col)=>{
         </Box>
       ))}
     </SimpleGrid>
+     <Center m="20px"><Pagination page={page} setPage={setPage} totalPage={totalPage}/></Center>
+     </Box>
   );
 };
 

@@ -4,7 +4,7 @@ import {Link } from "react-router-dom"
 import { shortID } from "../short_key.generator";
 
 const Offers = ({ offers, colSizes }) => {
-  console.log( offers);
+ // console.log( offers);
   return (
     
     <SimpleGrid columns={colSizes} spacing={10} textAlign="center">
