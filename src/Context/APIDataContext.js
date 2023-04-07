@@ -3,38 +3,48 @@ import axios from 'axios';
 export const APIContext = createContext(null);
 
 
+const initialState={
+  urlRoute:"/decor",
+  productsData:[],
+ routeAllData:[],
+ cartData:[],
+ favoriteData:[],
+ loading:null,
+ page:1,
+ total:null
+}
 
 const baseUrl = 'https://humdrum-town-8956-server-yo9e.vercel.app';
 const APIDataContext = ({ children }) => {
   const [urlRoute, setUrlRoute] = useState('/decor');
-  const [productsData, setProductsData] = useState([]);
+  // const [productsData, setProductsData] = useState([]);
   const [cartData, setCartData] = useState([]);
   const [favoriteData, setFavoriteData] = useState([]);
-  const [loading ,setLoading] =useState(null)
-  const [page,setPage] =useState(1)
-  const [total, setTotal] = useState();
-  const getData = async (route) => {
-    try { 
-      const url=`${baseUrl}${route}?_page=${page}&_limit=9`
-      let res = await  axios.get( url )
-      const count = res.headers["x-total-count"];
+  // const [loading ,setLoading] =useState(null)
+  // const [page,setPage] =useState(1)
+  // const [total, setTotal] = useState();
+  // const getData = async (route) => {
+  //   try { 
+  //     const url=`${baseUrl}${route}?_page=${page}&_limit=9`
+  //     let res = await  axios.get( url )
+  //     const count = res.headers["x-total-count"];
    
-      setTotal( count);
-      //console.log(res.data)
-     setLoading(false)
-    // {(rating = Math.floor(Math.random() * (6 - 1) + 1))}
-     let data=res.data.forEach(ele =>  ele["rating"]=Math.floor(Math.random() * (6 - 1) + 1)
+  //     setTotal( count);
+  //     //console.log(res.data)
+  //    setLoading(false)
+  //   // {(rating = Math.floor(Math.random() * (6 - 1) + 1))}
+  //    let data=res.data.forEach(ele =>  ele["rating"]=Math.floor(Math.random() * (6 - 1) + 1)
       
-     );
-    // console.log(res.data);
-     return res.data;
+  //    );
+  //   // console.log(res.data);
+  //    return res.data;
       
-    } catch (error) {
-     // SetLoading(true)
-      console.log(error);
-    }
-  };
-  const  totalpage=Math.ceil(total / 9)
+  //   } catch (error) {
+  //    // SetLoading(true)
+  //     console.log(error);
+  //   }
+  // };
+  // const  totalpage=Math.ceil(total / 9)
   const postData= (route,data) =>{
   
     axios.post(baseUrl+route,data)
@@ -55,29 +65,30 @@ const APIDataContext = ({ children }) => {
     
     });
   }
-  console.log(urlRoute);
-  useEffect(() => {
-    setLoading(true)
-   
-    getData(urlRoute).then((data)=> setProductsData(data))
 
-    setLoading(false)
-  }, [urlRoute,page]);
+  // useEffect(() => {
+  //   setLoading(true)
+   
+  //   getData(urlRoute).then((data)=> setProductsData(data))
+
+  //   setLoading(false)
+  // }, [urlRoute,page]);
   return (
     <APIContext.Provider
       value={{
-        productsData,
+        // productsData,
         cartData,
         favoriteData,
+        urlRoute,
         setUrlRoute,
         setCartData,
         setFavoriteData,
-        loading,
-        setLoading,
+        // loading,
+        // setLoading,
       postData,
-        page,
-        totalpage,
-        setPage
+        // page,
+        // totalpage,
+        // setPage
       }}
     >
       {children}

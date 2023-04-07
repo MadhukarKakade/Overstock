@@ -13,6 +13,7 @@ import Banner from "../Components/Home_Page/Banner";
 import Offers from "../Components/Home_Page/Offers";
 import { banners, offers } from "../Components/Images";
 import { Link } from "react-router-dom";
+import { shortID } from "../Components/short_key.generator";
 const offer = {
   BrandsWeLove: [
     "https://ak1.ostkcdn.com/img/mxc/110822-DysonLogo.svg?imwidth=1920",
@@ -114,7 +115,7 @@ const Home = () => {
       <Heading size="lg">Brands We Love</Heading>
       <SimpleGrid columns={[1, 2, 2, 3]} spacing={10}>
         {offer.BrandsWeLove.map((offer, i) => (
-          <Box key={i + 400}  _hover={{borderWidth:"2px"}}>
+          <Box key={shortID()}  _hover={{borderWidth:"2px"}}>
             <Link to="">
               <Image src={offer} />
             </Link>
@@ -131,7 +132,7 @@ const Home = () => {
       <Heading>Trending Searches</Heading>
       <SimpleGrid columns={[1, 2, 2, 3]} gap="15px" pb="50px">
         {trading.map((trade, i) => (
-          <Button h="50px" w="400px">
+          <Button h="50px" w="400px" key={shortID()}>
             {trade}
           </Button>
         ))}

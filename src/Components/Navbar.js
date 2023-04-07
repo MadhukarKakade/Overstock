@@ -151,7 +151,7 @@ const Navbar = () => {
         p="2px 10px"
       >
         {nav.map((text, i) => (
-          <Link  key={shortID()} to="/products">
+          <Link  key={shortID()} to={`/products/${text.toLowerCase()}`}>
             <Text onClick={() => setUrlRoute("/"+text.toLowerCase())}>{text}</Text>
           </Link>
         ))}
