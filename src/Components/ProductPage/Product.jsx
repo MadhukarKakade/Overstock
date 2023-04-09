@@ -36,7 +36,7 @@ import { useLocation } from "react-router-dom";
   /* <AiFillStar fontSize="16px" color="#81E6D9" /> */
 }
 let col;
-const Product = ({params}) => {
+const Product = () => {
   // const enable = useRef();
 
   let rating;
@@ -74,18 +74,23 @@ const handleFavour=(product,col)=>{
     //console.log(check,i)
   check? cart("favorite",i,"delete"):cart( "favorite",product,"post")
 }
+
+
+   
+
 useEffect(() => {
   // cart("cart");
   //   cart("favorite");
   setLoading(true)
   const route = location.pathname.replace("/products", "");
   const query=location.search
- const newParams={...params,_page:page,_limit:9}
+ const newParams={_page:page,_limit:9}
   getData(route,query,newParams).then(({totalCount,data})=> {
     setProductsData(data);
     const  totalpage=Math.ceil(totalCount / 9)
     setTotalPage(totalpage)
     setLoading(false)
+   
   }).catch((err)=>{
     console.log(err)
     setLoading(false)

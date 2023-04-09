@@ -46,7 +46,7 @@ const Navbar = () => {
   const [addTag,setHide]=useState({hide:true,delete:false})
  
   return (
-    <Box>
+    <Box pos="sticky" top="-30px" zIndex={10} bg="white">
       <HStack p="5px" color="white" bg="blackAlpha.800" display={addTag.delete?"none":"flex"} justifyContent="center" alignItems={addTag.hide?"center":"flex-start"}>
         
         <Box fontSize="12px" >
@@ -74,7 +74,7 @@ const Navbar = () => {
         </Box>
         <CloseButton  onClick={()=>setHide({...addTag,delete:!addTag.delete})}/>
       </HStack>
-      <HStack p="2px 20px">
+      <HStack p="2px 20px" >
         <Box>Ships to:</Box>
         <HStack>
           <Avatar
@@ -87,7 +87,7 @@ const Navbar = () => {
         </HStack>
       </HStack>
       <Box border="0.1px solid  rgb(220,220,220)" />
-      <Flex justify="space-between" alignItems="center" p="15px 20px">
+      <Flex justify="space-between" alignItems="center" p="15px 20px" >
         <Box>
           <Link to="/">
             <Image w="75px" src={logo} alt="logo" />
