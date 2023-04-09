@@ -82,7 +82,7 @@ const Products_Page = () => {
           <Filter filterData={filterData} />
         </GridItem>
         <GridItem>
-          <Product />
+          <Product setFilterData={setFilterData} filterData={filterData}/>
         </GridItem>
       </Grid>
     </Box>
