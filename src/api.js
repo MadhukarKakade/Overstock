@@ -32,3 +32,15 @@ export  const getData = async (route,query="",params={}) => {
       console.log(error);
     }
   };
+
+  export const postData=async(route,data)=>{
+    try{
+      let url=baseUrl+route
+let res=await axios.post(url,data)
+return res
+
+    }catch (error) {
+     // SetLoading(true)
+      console.log(error);
+    }
+  }

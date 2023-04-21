@@ -9,10 +9,10 @@ import { getData } from "../api";
 import { useParams, useSearchParams } from "react-router-dom";
 const Products_Page = () => {
   const [loading, setLoading] = useState(null);
-  const [allProductsData, setAllProductsData] = useState([]);
+  
 
   const [filterData, setFilterData] = useState([]);
-  const [searchParams, setSearchParams] = useSearchParams();
+
 
   const params = useParams();
 
@@ -71,7 +71,7 @@ const Products_Page = () => {
         setLoading(false);
       });
     // handleParams()
-  }, []);
+  }, [params.id]);
   if (loading) {
     return <Loading />;
   }
