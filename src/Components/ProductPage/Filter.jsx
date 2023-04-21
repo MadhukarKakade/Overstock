@@ -103,7 +103,7 @@ const Filter = ({ filterData }) => {
           Object.keys(operation).map((filter, i) => (
             <Box key={shortID()} w="full">
               <Box borderWidth="1px"  mb="10px"/>
-              <HStack cursor="pointer" justifyContent="space-between" pl="5px" onMouseEnter={() => handleShow(filter)} >
+              <HStack cursor="pointer" justifyContent="space-between" pl="5px" onClick={() => handleShow(filter)} >
                 <Heading  size="sm">
                   {filter.split("_").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ")}
                 </Heading>
