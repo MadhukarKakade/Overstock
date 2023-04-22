@@ -5,11 +5,11 @@ import { shortID } from '../short_key.generator';
 import { StarIcon } from "@chakra-ui/icons";
 import { postData } from '../../api';
 import { useLocation } from 'react-router-dom';
-const Product_Popover = ({product}) => {
+const Product_Popover = ({product,enable,setEnable}) => {
   const initRef = useRef(null);
   const [quantity,setQuantity]=useState(1)
   const { isOpen, onToggle, onClose } = useDisclosure()
-  const [enable, setEnable] = useState("");
+ 
   const location = useLocation();
 
   const handleAddtoCart=(product_id)=>{
@@ -19,10 +19,10 @@ const Product_Popover = ({product}) => {
    }
   return (
     <Popover closeOnBlur={false} initialFocusRef={initRef}>
-    {/* {({ isOpen, onClose }) => ( */}
+    {({ isOpen, onClose }) => (
       <Box>
-        <PopoverTrigger>
-          <Button onMouseOver={()=>setEnable(product.id)}>Click to {enable==product.id ? "Hide" : "Details"}</Button>
+        <PopoverTrigger >
+          <Button onMouseEnter={()=>setEnable(product.id)}>Click to {enable==product.id &&isOpen? "Hide" : "Details"}</Button>
         </PopoverTrigger>
         {enable==product.id &&<Portal>
           <PopoverContent w="800px" m="5px" borderWidth="2px">
@@ -124,7 +124,7 @@ const Product_Popover = ({product}) => {
           </PopoverContent>
         </Portal>}
       </Box>
-    {/* )} */}
+     )} 
   </Popover>
   )
 }

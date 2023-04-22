@@ -46,6 +46,7 @@ const Product = () => {
   const [productsData, setProductsData] = useState([]);
   const [loading ,setLoading] =useState(null)
   const [totalPage, setTotalPage] = useState();
+    const [enable, setEnable] = useState("");
   const location = useLocation();
   //console.log(location)
   const [page,setPage] =useState(1)
@@ -120,19 +121,17 @@ if (loading){
               bg="gray.400"
               pos="absolute"
               right="20px"
-              top="10px"
+              top="15px"
               zIndex={4}
               cursor="pointer"
               color={col?"red":"white"}
-              value={col}
+             
               onClick={(e) => {
                 handleFavour(product,e);
               }}
             >
               <MdFavorite
-                size="25px"
-               
-               
+                size="20px"
               />
             </Circle>
 
@@ -180,7 +179,7 @@ if (loading){
             </Flex>
 
             <Text>{product.product_name}</Text>
-         <Product_Popover product={product}/>
+         <Product_Popover product={product} enable={enable} setEnable={setEnable}/>
           </VStack>
         </Box>
       ))}
