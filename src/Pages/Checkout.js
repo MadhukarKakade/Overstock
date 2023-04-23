@@ -1,10 +1,15 @@
 import React from "react";
 import logo from "../Images/logo.png";
 import fedex from "../Images/Checkout/fedex.jpg";
+import visa from "../Images/Checkout/visa.png";
+import mastercard from "../Images/Checkout/mastercard.png";
+import signup from "../Images/Checkout/signup.png";
+import security from "../Images/Checkout/Security.gif";
+import australia from "../Images/Checkout/australia.png"
 import {
   Box,
   Flex,
-  FormLabel,
+  Button,
   HStack,
   Heading,
   Image,
@@ -12,9 +17,20 @@ import {
   Select,
   SimpleGrid,
   Text,
+  FormLabel,
+  Radio,
+  RadioGroup,
   VStack,
+  FormControl,
+  Checkbox,
 } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
+import shortid from "shortid";
+const   currentYear = new Date().getFullYear()
+const currentMonth=new Date().getMonth()
 const Checkout = () => {
+  const [value, setValue] = React.useState("1");
+  
   return (
     <Box width="70%" m="auto">
       <HStack justify="space-between">
@@ -30,20 +46,34 @@ const Checkout = () => {
           Your order total includes customs and taxes, if applicable.
         </Text>
       </HStack>
-      <div class="returnAnchor_div">
-        <a class="returnAnchor" href="http://">
-          {" "}
-          {"<< "}Back to Cart
-        </a>
-      </div>
-      <Flex justify="space-between" gap="10px">
-        <div class="addressBox1" >
-        
-            <Heading p="10px" bg="#fff8e9" size="sm">Billing Address</Heading>
-       
-          <SimpleGrid templateColumns="150px 350px" gap="15px" fontSize="sm" w="50%" >
-            <Text fontWeight="bold">EMAIL</Text>
-            <Input size="xs"  id="email" type="text" required />
+      <Box className="returnAnchor_Box">
+        <Link to="/cart">{"<< "}Back to Cart</Link>
+      </Box>
+      <Flex justify="space-between" gap="20px">
+        <Box className="addressBox1" w="50%">
+          <Heading
+            p="10px"
+            bg="#fff8e9"
+            size="sm"
+            borderColor="gray.100"
+            borderLeft="1px"
+            borderRight="1px"
+            borderTop="1px "
+          >
+            Billing Address
+          </Heading>
+
+          <SimpleGrid
+            templateColumns="150px auto"
+            gap="15px"
+            fontSize="sm"
+            p="5px 10px"
+            w="full"
+            borderColor="gray"
+            border="1px"
+          >
+            <Text fontWeight="bold">Email</Text>
+            <Input size="xs" id="email" type="text" required />
             <Text fontWeight="bold">First Name</Text>
             <Input size="xs" id="firstName" type="text" required />
             <Text fontWeight="bold">Last Name</Text>
@@ -59,12 +89,11 @@ const Checkout = () => {
             <Input size="xs" id="address2" type="text" />
             <Text fontWeight="bold">Country</Text>
             <Select
-              class="form-select countrySelect"
+              size="xs"
               id="country"
-              aria-FormLabel="Default select example"
+              placeholder="Select Country"
               required
             >
-              <option selected>Select Country</option>
               <option value="india">India</option>
               <option value="canada">Canada</option>
               <option value="china">China</option>
@@ -82,13 +111,37 @@ const Checkout = () => {
 
             <Input size="xs" id="phone" type="text" required />
           </SimpleGrid>
-        </div>
-        <div class="addressBox2">
-        <Heading p="10px" bg="#fff8e9" size="sm">Shipping Address</Heading>
-      
-        <SimpleGrid templateColumns="150px 350px" gap="15px" fontSize="sm" w="50%">
-            <Text  fontWeight="bold">EMAIL</Text>
-            <Input size="xs" class="topEle" id="email" type="text" required />
+        </Box>
+        <Box className="addressBox2" w="50%">
+          <Heading
+            p="10px"
+            bg="#fff8e9"
+            size="sm"
+            borderColor="gray.100"
+            borderLeft="1px"
+            borderRight="1px"
+            borderTop="1px"
+          >
+            Shipping Address
+          </Heading>
+
+          <SimpleGrid
+            templateColumns="150px auto"
+            gap="15px"
+            fontSize="sm"
+            p="5px 10px"
+            w="full"
+            borderColor="gray"
+            border="1px"
+          >
+            <Text fontWeight="bold">Email</Text>
+            <Input
+              size="xs"
+              className="topEle"
+              id="email"
+              type="text"
+              required
+            />
             <Text fontWeight="bold">First Name</Text>
             <Input size="xs" id="firstName" type="text" required />
             <Text fontWeight="bold">Last Name</Text>
@@ -97,23 +150,20 @@ const Checkout = () => {
             <Input size="xs" id="company" type="text" />
             <Text>Tax ID</Text>
             <Input size="xs" id="taxId" type="text" />
-            <Text fontWeight="bold">Address Line 1</Text>
-            <Input size="xs" id="address1" type="text" required />
+            <FormLabel fontWeight="bold">Address Line 1</FormLabel>
+            <Input size="xs" id="address1" type="text" isRequired />
 
             <Text>Address Line 2</Text>
             <Input size="xs" id="address2" type="text" />
             <Text></Text>
-            <Text >
-                (We cannot ship to PO box, APO or FPO addresses.)
-              </Text>
+            <Text>(We cannot ship to PO box, APO or FPO addresses.)</Text>
             <Text fontWeight="bold">Country</Text>
             <Select
-            
               id="country"
-              aria-FormLabel="Default select example"
-              required
+              placeholder="Select Country"
+              isRequired
+              size="xs"
             >
-              <option selected>Select Country</option>
               <option value="india">India</option>
               <option value="canada">Canada</option>
               <option value="china">China</option>
@@ -131,87 +181,169 @@ const Checkout = () => {
 
             <Input size="xs" id="phone" type="text" required />
           </SimpleGrid>
-         
-        </div>
+        </Box>
       </Flex>
 
-      <div class="paymentsItemInfo">
-        <div></div>
-        <div class="methodShipping">
-          <div class="headShipping">
-            <Text>Shipping Method</Text>
-          </div>
-          <div class="shippingInfo">
-            {/* <!-- <form class = "shippingDiv1"> --> */}
+      <Box className="paymentsItemInfo">
+        <Box></Box>
+        <Box className="methodShipping">
+          <Heading
+            p="10px"
+            bg="#fff8e9"
+            size="sm"
+            borderColor="gray.100"
+            border="1px "
+          >
+            Shipping Method
+          </Heading>
+
+          <Box className="shippingInfo">
+            {/* <!-- <form className = "shippingBox1"> --> */}
 
             {/* <!-- </form> --> */}
-            <div class="shippingDiv2">
-              <div>
-                <Input size="xs" type="radio" name="shippingMethod" value="standard" />
-                <span>
-                  <b>International Standard</b> - 11785.06 INR
-                </span>
-                <Text class="green">Estimated Delivery Date: 2022-01-05</Text>
-              </div>
-              <div>
-                <Input size="xs" type="radio" name="shippingMethod" value="express" />
-                <span>
-                  <b>International Express</b> - 14405.21 INR
-                </span>
-                <Text class="green">Estimated Delivery Date: 2021-12-31</Text>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+            <Box p="10px">
+              <RadioGroup onChange={setValue} value={value}>
+                <Radio spacing="100px" colorScheme="blackAlpha" value="1" mt="5px">
+                  <Text as="b">International Standard </Text>- 11785.06 INR
+                </Radio>
+                <Text ml="115px" color="green" mt="5px">
+                  Estimated Delivery Date: 2022-01-05
+                </Text>
+                <Radio spacing="100px" colorScheme="blackAlpha" value="2" mt="15px">
+                  <Text as="b">International Express </Text> - 14405.21 INR
+                </Radio>
+                <Text ml="115px" color="green" mt="5px">
+                  Estimated Delivery Date: 2021-12-31
+                </Text>
+              </RadioGroup>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
 
-      <div class="paymentUserDetails">
-        <div class="payment_divHead">
-          <Text>Payment Information</Text>
-        </div>
-        <div class="paymentDetails">
-          <div class="imgDiv">
-            <img src="https://e7.pngegg.com/pngimages/27/252/png-clipart-mastercard-visa-credit-card-paypal-logo-mastercard-text-display-advertising.png" />
-          </div>
-          <div class="cardInfo">
-            <div class="cardQuery">
-              <Text>Card Type</Text>
-              <Text>Cardholder Name</Text>
-              <Text class="expcvv_text">Expiry</Text>
-              <Text class="expcvv_text2">CVV</Text>
-            </div>
-            <div class="cardQueryResult">
-              <select class="Inputbox" name="card_type" id="card_type" required>
-                <option value="">Select Card</option>
-                <option value="Visa">Visa</option>
-                <option value="RuPay">RuPay</option>
-                <option value="MasterCard">MasterCard</option>
-              </select>
-              <Input size="xs"
-                type="text"
-                class="Inputbox"
-                name="name"
-                id="name"
-                required
-              />
-              <Input size="xs"
-                type="date"
-                class="Inputbox"
-                name="exp_date"
-                id="exp_date"
-                required
-              />
-              <Input size="xs"
-                type="password"
-                class="Inputbox"
-                name="cvv"
-                id="cvv"
-                required
-              />
-            </div>
-          </div>
-        </div>
-      </div>
+      <Box border="1px" >
+        <Heading
+          p="10px"
+          bg="#fff8e9"
+          size="sm"
+          borderColor="gray.100"
+          borderBottom="1px"
+        >
+          Payment Information
+        </Heading>
+
+        <Box p="10px">
+          <HStack h="70px">
+            <Image src={visa} alt="visa" />
+            <Image src={mastercard} alt="Mastercard" />
+          </HStack>
+          <FormControl isRequired>
+<SimpleGrid templateColumns="400px auto" w="70%" gap="10px" >
+         
+            <FormLabel fontSize="sm">Card Type</FormLabel>
+            <Select size="xs" placeholder="Select Card" name="card_type">
+              <option value="Visa">Visa</option>
+              <option value="RuPay">RuPay</option>
+              <option value="MasterCard">MasterCard</option>
+            </Select>
+         
+            <FormLabel fontSize="sm">Credit Card Number</FormLabel>
+            <Input size="xs" placeholder="Credit Card Number" name="name" type="number" />
+       
+            <FormLabel fontSize="sm">Expiration Date</FormLabel>
+            <HStack> <Select maxW="70px" size="xs"><option></option> {Array(12)
+                      .fill("")
+                      .map((_, i) => <option key={shortid()} value={i+1}>{i+1}</option>)}</Select>
+                      <Select size="xs"> <option></option>{Array(10)
+                      .fill("")
+                      .map((_, i) => <option key={shortid()} value={i+ currentYear}>{i+ currentYear}</option>)}</Select>
+                     
+                      </HStack>
+           
+         
+            <FormLabel fontSize="sm">Security Code</FormLabel>
+            <Input size="xs" type="password" maxLength="3" minLength="3" className="Inputbox" name="cvv"  />
+          < Text></Text> <Image src={security} alt="security code" /></SimpleGrid>
+          </FormControl>
+        </Box>
+      </Box>
+
+      <Box id="t3">
+        <Image src={signup}alt="signup"/>
+    <Checkbox size="sm" >When you sign up for email, you'll get exclusive coupons, sale
+          notifications, and product ideas.(i)</Checkbox>
+          <Text as="u">Privacy Policy</Text>
+        <Text id="five">
+          
+        </Text>
+        <br />
+        <br />
+      </Box>
+      <Flex justify="space-between">
+        <Box>
+      <Text fontSize="sm">By clicking the "Place order" button, you acknowledge that your order will be processed and fulfilled by</Text>
+      <Text fontSize="sm"> 
+<u>FedEx Cross Border</u> and you agree to <u>FedEx Cross Border Terms and Conditions</u> and <u>Privacy Policy</u> .</Text></Box>
+      <Button type="submit" color="white" bg="#81a555" size="sm" borderRadius="3px">
+        PLACE ORDER {">>"}
+      </Button>
+      </Flex>
+      <Box className="paydown">
+        <Heading color="rgb(12,12,12)" font-size="25px" font-weight="bold">
+        
+          Customer Testimonials:
+        </Heading>
+
+        <hr />
+      </Box>
+      <Flex gap="5px" bg="antiquewhite">
+        <Box>
+          <Image height="77px" width="70px" src={australia} />
+        </Box>
+        <VStack justify="space-around">
+          <Heading size="xs">Catherine</Heading>
+          <Heading size="xs">Australia</Heading>
+        </VStack>
+       
+      </Flex>
+      <Box className="ptag">
+        <Text>
+          "I received my item today and I am just emailing to say how pleased I
+          am with your service. I am thrilled with the coat I ordered, a coat I
+          cannot buy in Australia. The price was fair and I received the item
+          within 10 days!" Thank you for excellent service."Christine
+        </Text>
+      </Box>
+      <Flex gap="5px" bg="antiquewhite">
+        <Box className="candaimage">
+          <Image
+            height="67px"
+            width="70px"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRokZpLAQZ4TnOZ6kmzqxYURhciBvNAa1GAd2Xr8ygiVbBZ8vsv"
+          />
+        </Box>
+        <VStack justify="space-around">
+        <Heading size="xs">Christine</Heading>
+        <Heading size="xs">Mississauga, ON</Heading>
+        </VStack>
+        <Box className="ptag">
+        <Text mt="10px" fontSize="xs" ml="100px">"I'm very impressed by the level of dedication Overstock.com has for its customers."</Text>
+        </Box>
+      </Flex>
+
+      <Box className="downtag">View all customer testimonials-</Box>
+      <Box className="downMenu">
+        <Box className="downMenu1">Return Policy</Box>
+        <Box className="downMenu1">Contact Customer Care</Box>
+        <Box className="downMenu1">FAQ</Box>
+
+        <Box className="downMenu1">Privacy Policy</Box>
+
+        <Box className="downMenu1">Site User Term & condition</Box>
+      </Box>
+
+      <hr />
+      <Box>© 2021 Overstock.com All Rights Reserved</Box>
     </Box>
   );
 };
