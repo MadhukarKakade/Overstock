@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = 'https://humdrum-town-8956-server-yo9e.vercel.app';
+const baseUrl = process.env.REACT_APP_MOCK_SERVER_URL
 
 export  const getData = async (route,query="",params={}) => {
     try { 
